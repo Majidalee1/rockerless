@@ -4,7 +4,7 @@
 
 ### The volume rocker your phone forgot.
 
-A floating volume bubble, a Quick Settings tile, and a system-matched look.
+A floating volume bubble, a Quick Settings tile, and a Material 3 Expressive look that matches your phone.
 For phones whose physical volume buttons are broken, stuck, or simply gone.
 
 ![Platform](https://img.shields.io/badge/platform-Android%2011%2B-3DDC84?logo=android&logoColor=white)
@@ -12,6 +12,7 @@ For phones whose physical volume buttons are broken, stuck, or simply gone.
 ![Min SDK](https://img.shields.io/badge/minSdk-30-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![No network](https://img.shields.io/badge/network-none-success)
+![Material 3 Expressive](https://img.shields.io/badge/design-Material%203%20Expressive-6750A4)
 
 <img src="docs/screenshots/settings-light.png" alt="Rockerless settings, light theme" width="280" />&nbsp;&nbsp;<img src="docs/screenshots/settings-dark.png" alt="Rockerless settings, dark theme" width="280" />
 
@@ -31,7 +32,8 @@ No ads. No accounts. No internet permission. The whole app is about 1,100 lines 
 - **🎚️ Real system volume panel.** A tap opens Android's own volume UI, so it matches your phone, language, and Do Not Disturb rules.
 - **🔇 One-press mute.** Long-press the bubble to mute media, long-press again to restore the previous level.
 - **📊 Level ring.** A ring around the bubble shows the current media volume at a glance. The icon switches to a muted glyph at zero.
-- **🎨 Follows your theme.** Light and dark mode, plus Material You dynamic colors from your wallpaper on Android 12 and later.
+- **🎨 Material 3 Expressive.** A nine-lobed cookie-shaped bubble, a wavy level ring that ripples when the volume changes, a wavy opacity slider, and springy press feedback on every button.
+- **🌗 Follows your theme.** Light and dark mode, plus Material You dynamic colors from your wallpaper on Android 12 and later.
 - **🙈 Stay out of the way.** Choose a small, medium, or large bubble and adjust its opacity. Turn on **Hide when idle** and the bubble slides into a sliver at the screen edge after 3 seconds. Tap the sliver to bring it back.
 - **⚡ Quick Settings tile.** Open the notification shade and tap **Media volume** for the same panel, with a tile that shows mute state.
 - **🔁 Survives reboots.** If the bubble was on, it comes back after a restart.
@@ -117,7 +119,9 @@ Rockerless does **not** use an accessibility service, does not read other apps' 
 ```
 app/src/main/java/app/volumebubble/
 ├── BubbleService.kt   # Foreground service: the floating bubble, drag/snap, auto-hide
-├── BubbleView.kt      # Custom-drawn bubble: container, level ring, volume glyph
+├── BubbleView.kt      # Expressive bubble: cookie container, wavy level ring, volume glyph
+├── WavySlider.kt      # Wavy opacity slider
+├── Motion.kt          # Springy press feedback
 ├── MainActivity.kt    # Setup and settings screen
 ├── MuteTile.kt        # Quick Settings tile
 ├── Volume.kt          # Mute/restore logic, system panel, level watcher
@@ -130,7 +134,7 @@ app/src/main/java/app/volumebubble/
 ## Building from source
 
 - Gradle 8.10.2 (wrapper included), Android Gradle Plugin 8.7.3, Kotlin 2.0.21.
-- No third-party libraries. Everything is built on the Android framework, so the APK stays small.
+- No third-party libraries. The expressive shapes, waves, and springs are drawn with the Android framework's `Canvas` and `ValueAnimator`, so the APK stays small.
 
 ```sh
 ./gradlew :app:assembleDebug   # build

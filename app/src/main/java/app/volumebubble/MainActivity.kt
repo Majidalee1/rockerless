@@ -30,6 +30,8 @@ class MainActivity : Activity() {
     private lateinit var hint: TextView
     private lateinit var opacityValue: TextView
     private lateinit var autoHideSwitch: Switch
+    private lateinit var hero: BubbleView
+    private var heroWatcher: Volume.Watcher? = null
     private val sizeChips = LinkedHashMap<Int, TextView>()
 
     private val sizes = listOf("Small" to 48, "Medium" to 56, "Large" to 64)
@@ -44,6 +46,17 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
         refresh()
+        heroWatcher = Volume.Watcher(this) { updateHero() }.also { it.start() }
+    }
+
+    override fun onPause() {
+        heroWatcher?.stop()
+        heroWatcher = null
+        super.onPause()
+    }
+
+    private fun updateHero() {
+        hero.setLevel(Volume.level(this).toFloat() / Volume.max(this), Volume.isMuted(this))
     }
 
     // ---------------------------------------------------------------- layout
@@ -55,17 +68,34 @@ class MainActivity : Activity() {
             setPadding(pad, pad, pad, pad)
         }
 
-        column.addView(Ui.text(this, "Volume Bubble", 30f, palette.onSurface, Typeface.BOLD))
-        column.addView(
-            Ui.text(
-                this,
-                "A floating volume control for a phone without working volume buttons.",
-                14f,
-                palette.onSurfaceDim,
-            ).apply {
-                setLineSpacing(dpf(3f), 1f)
-                setPadding(0, dp(8), 0, dp(24))
+        val header = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        header.addView(
+            LinearLayout(this@MainActivity).apply {
+                orientation = LinearLayout.VERTICAL
+                addView(Ui.text(this@MainActivity, "Volume Bubble", 34f, palette.onSurface, Typeface.BOLD))
+                addView(
+                    Ui.text(
+                        this@MainActivity,
+                        "A floating volume control for a phone without working volume buttons.",
+                        14f,
+                        palette.onSurfaceDim,
+                    ).apply {
+                        setLineSpacing(dpf(3f), 1f)
+                        setPadding(0, dp(6), 0, 0)
+                    },
+                )
             },
+            LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f),
+        )
+        hero = BubbleView(this)
+        header.addView(hero, LinearLayout.LayoutParams(dp(104), dp(104)))
+        column.addView(
+            header,
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .apply { bottomMargin = dp(24) },
         )
 
         // --- permission
@@ -133,23 +163,18 @@ class MainActivity : Activity() {
         opacityRow.addView(opacityValue)
         appearance.addView(opacityRow, wrapParams(top = 16))
 
-        val opacity = SeekBar(this).apply {
-            max = 70
-            progress = Prefs.opacityPct(this@MainActivity) - 30
-            opacityValue.text = "${progress + 30}%"
-            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(bar: SeekBar, value: Int, fromUser: Boolean) {
-                    opacityValue.text = "${value + 30}%"
-                }
-
-                override fun onStartTrackingTouch(bar: SeekBar) = Unit
-
-                override fun onStopTrackingTouch(bar: SeekBar) {
-                    Prefs.setOpacityPct(this@MainActivity, bar.progress + 30)
-                    reloadBubble()
-                }
-            })
+        val opacity = WavySlider(this).apply {
+            min = 30
+            max = 100
+            value = Prefs.opacityPct(this@MainActivity)
+            setColors(palette.ring, palette.onSurface.withAlpha(0x33), palette.ring)
+            onValueChange = { opacityValue.text = "$it%" }
+            onRelease = {
+                Prefs.setOpacityPct(this@MainActivity, value)
+                reloadBubble()
+            }
         }
+        opacityValue.text = "${Prefs.opacityPct(this)}%"
         appearance.addView(opacity, wrapParams(top = 4))
 
         autoHideSwitch = Switch(this).apply {
@@ -217,7 +242,7 @@ class MainActivity : Activity() {
 
     private fun card(): LinearLayout = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL
-        background = Ui.card(this@MainActivity, 24f, palette.card)
+        background = Ui.card(this@MainActivity, 28f, palette.card)
         val pad = dp(18)
         setPadding(pad, pad, pad, pad)
     }
@@ -258,6 +283,7 @@ class MainActivity : Activity() {
             isFocusable = true
             setOnClickListener { onClick() }
             styleButton(this, primary)
+            Motion.springPress(this)
         }
 
     private fun styleButton(view: TextView, primary: Boolean) {
@@ -275,6 +301,7 @@ class MainActivity : Activity() {
             isClickable = true
             isFocusable = true
             setOnClickListener { onClick() }
+            Motion.springPress(this)
         }
 
     private fun styleChip(view: TextView, selected: Boolean) {

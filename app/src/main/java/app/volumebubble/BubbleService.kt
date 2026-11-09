@@ -281,6 +281,7 @@ class BubbleService : Service() {
                 downWhilePeeked = peeked
                 handler.removeCallbacks(idleRunnable)
                 view.alpha = opacity()
+                Motion.squish(view, 0.9f)
                 refreshVisuals()
             }
 
@@ -305,6 +306,7 @@ class BubbleService : Service() {
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                Motion.release(view)
                 if (dragged) snapToEdge()
                 else if (downWhilePeeked) unpeek()
                 scheduleIdle()
