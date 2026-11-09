@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Volume Bubble</string>
+    <string name="notif_channel">Floating control</string>
+    <string name="notif_title">Volume bubble is on</string>
+    <string name="notif_text">Tap the bubble to change volume</string>
+    <string name="notif_stop">Stop</string>
+    <string name="tile_label">Media volume</string>
+    <string name="tile_on">On</string>
+    <string name="tile_muted">Muted</string>
+    <string name="toast_muted">Media muted</string>
+    <string name="toast_unmuted">Media on</string>
+</resources>

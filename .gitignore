@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio / IntelliJ / Kotlin
+.idea/
+.kotlin/
+*.iml
+local.properties
+
+# Signing and local secrets
+*.jks
+*.keystore
+keystore.properties
+
+# OS
+.DS_Store
+
+# Local working notes
+tasks/
