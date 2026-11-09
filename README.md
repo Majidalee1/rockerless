@@ -141,6 +141,32 @@ app/src/main/java/app/volumebubble/
 ./gradlew :app:lintDebug       # lint
 ```
 
+## FAQ
+
+**My Android volume button is broken. How do I change the volume?**
+Install Rockerless and tap its floating bubble. It opens Android's own volume panel, so you can change media, call, ring, and alarm volume without the hardware button. Long-press the bubble to mute.
+
+**Is there an AssistiveTouch-style floating volume button for Android?**
+Yes. Rockerless is a floating volume button for Android. It works like AssistiveTouch but only controls volume. It doesn't need the Accessibility Menu.
+
+**How do I add a volume button to the Android notification bar?**
+Add the **Media volume** tile in Quick Settings. Swipe down from the top-right corner, tap the pencil icon, and drag the tile into place. Tapping it opens the volume panel.
+
+**Can I control volume with a button gesture on Android?**
+Rockerless uses a tap and a long-press on a floating bubble, with no accessibility service. Double-pressing the power button can't open the volume panel on Pixel phones, because that shortcut is reserved for the camera.
+
+**Does it work on Pixel phones with a case?**
+Yes. The bubble and the Quick Settings tile don't need a clear back. Quick Tap, which uses the back of the phone, is the only feature a thick case can block, and Rockerless doesn't depend on it.
+
+**Does it need the Accessibility Menu or an accessibility service?**
+No. It needs only **Draw over other apps**. It doesn't read other apps' screens and has no internet permission.
+
+**Which Android versions are supported?**
+Android 11 (API 30) and newer. It has been tested on a Pixel 6 Pro running Android 17.
+
+**Is it free and open source?**
+Yes. It's MIT licensed. The source is on this page, and you can build it yourself with `./gradlew :app:assembleDebug`.
+
 ## Contributing
 
 Issues and pull requests are welcome. For larger changes, open an issue first so we can talk about the approach. Keep the no-dependencies, no-network stance in mind: it's a core part of the project.
