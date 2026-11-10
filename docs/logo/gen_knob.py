@@ -23,15 +23,42 @@ PALETTES = {
     "indigo":   ("#1A1B4B", "#33357A", "#FFD9F0", "#B7B9FF"),
     "pixel":    ("#0F2A2E", "#1F4A50", "#C6F0A8", "#9FE3E8"),
     "sunset":   ("#2B1631", "#4D2B54", "#FFD8B0", "#F3B2D4"),
+    "ocean":    ("#0B2545", "#1B3F6B", "#8EE3EF", "#5FA8F5"),
+    "forest":   ("#1B2A1F", "#2F4A35", "#E6F4C8", "#9ED9A8"),
+    "graphite": ("#1C1C1F", "#38383D", "#FFFFFF", "#C9C9D1"),
+    "ember":    ("#2A1410", "#4E2A22", "#FFC48A", "#FF8A6B"),
+    "lilac":    ("#ECE6FF", "#D3C8F5", "#5B3FD6", "#9A86F0"),
+    "daylight": ("#E3EEFF", "#C4D6F5", "#1F2B4D", "#6E93E6"),
+    "mint":     ("#E4F7EC", "#C5E9D3", "#1E5A3D", "#5EC08E"),
+    "rose":     ("#FFE6EC", "#F5C9D5", "#8A1F45", "#F07A9C"),
 }
 
 S, C = 1024, 512
-START, SWEEP, LEVEL = 135, 270, 0.68  # ring geometry, SVG degrees (y down, clockwise)
+# Ring geometry, SVG degrees (y down, clockwise). The gap is centred on the
+# bottom. A smaller gap makes the mark closer to a full circle, so it balances
+# top-to-bottom and the knob sits at (almost) the true centre.
+GAP = float(os.environ.get("KNOB_GAP", "40"))
+SWEEP = 360 - GAP
+START = 90 + GAP / 2
 RR, SW = 300, 60                      # ring radius and stroke width
 R, A, N = 194, 8, 10                  # knob base radius, lobe depth, lobe count
+# Symmetry: one lobe points straight up (270 deg), so with an even lobe count the
+# knob mirrors cleanly left/right and top/bottom. The level is chosen so the
+# fill ends exactly on a lobe, which puts the pointer on a lobe's centre line.
+LOBE_STEP = 360 / N
+# STYLE picks where the level ends. "level" = 63% (pointer one lobe right of top),
+# "half" = 50% (pointer straight up), "full" = whole ring one tone, pointer up.
+STYLE = os.environ.get("KNOB_STYLE", "full")
+END = 270 + (LOBE_STEP if STYLE == "level" else 0)
+LEVEL = (END - START) / SWEEP         # 0.633
 DOT_R, DOT_IN = 30, 66                # pointer radius, distance in from knob edge
 ICON_SCALE = 0.84                     # keeps the ring inside Android's 66dp safe zone
-NUDGE = 24                            # optical centring: the ring is open at the bottom
+MONO_SCALE = 0.66                     # themed icons: ~46dp glyph, in line with Google's own
+# Centre the mark's bounding box on the canvas. The ring is open at the bottom,
+# so its box sits higher than its centre; shift down by exactly that amount.
+_top = RR + SW / 2
+_bottom = RR * math.sin(math.radians(START + SWEEP - 360)) + SW / 2
+NUDGE = (_top - _bottom) / 2
 
 
 def f(v):
@@ -50,9 +77,8 @@ def arc(r, a0, a1):
     return f"M{f(x0)},{f(y0)} A{r},{r} 0 {large} 1 {f(x1)},{f(y1)}"
 
 
-END = START + SWEEP * LEVEL
 TRACK_D = arc(RR, START, START + SWEEP)
-FILL_D = arc(RR, START, END)
+FILL_D = TRACK_D if STYLE == "full" else arc(RR, START, END)
 
 
 def knob_d():
@@ -61,7 +87,7 @@ def knob_d():
     pts = []
     for i in range(360):
         t = 2 * math.pi * i / 360
-        r = R + A * math.cos(N * (t - math.radians(END)))
+        r = R + A * math.cos(N * (t - math.radians(270)))
         pts.append((C + r * math.cos(t), C + r * math.sin(t)))
     outline = "M" + " L".join(f"{f(x)},{f(y)}" for x, y in pts) + " Z"
     dx, dy = pt(R - DOT_IN, END)
@@ -89,6 +115,7 @@ def svg(palette, scale, size=S):
 
 def vector(palette, mono=False):
     _, track, fill, knob = palette
+    scale = MONO_SCALE if mono else ICON_SCALE
     if mono:  # themed icons: Android tints by alpha only
         track, fill, knob = "#FFFFFFFF", "#FFFFFFFF", "#FFFFFFFF"
     track_alpha = ' android:strokeAlpha="0.35"' if mono else ""
@@ -102,9 +129,9 @@ def vector(palette, mono=False):
     <group
         android:pivotX="{C}"
         android:pivotY="{C}"
-        android:scaleX="{ICON_SCALE}"
-        android:scaleY="{ICON_SCALE}"
-        android:translateY="{f(NUDGE * ICON_SCALE)}">
+        android:scaleX="{scale}"
+        android:scaleY="{scale}"
+        android:translateY="{f(NUDGE * scale)}">
         <path
             android:pathData="{TRACK_D}"
             android:strokeColor="{track}"{track_alpha}
