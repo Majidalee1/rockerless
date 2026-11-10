@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🔊 Rockerless
+<img src="docs/logo/rockerless-icon.svg" alt="Rockerless logo: a wavy volume knob inside a level ring" width="128" />
+
+# Rockerless
 
 ### The volume rocker your phone forgot.
 
