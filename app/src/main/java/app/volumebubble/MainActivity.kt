@@ -75,7 +75,7 @@ class MainActivity : Activity() {
         header.addView(
             LinearLayout(this@MainActivity).apply {
                 orientation = LinearLayout.VERTICAL
-                addView(Ui.text(this@MainActivity, "Volume Bubble", 34f, palette.onSurface, Typeface.BOLD))
+                addView(Ui.text(this@MainActivity, getString(R.string.app_name), 34f, palette.onSurface, Typeface.BOLD))
                 addView(
                     Ui.text(
                         this@MainActivity,

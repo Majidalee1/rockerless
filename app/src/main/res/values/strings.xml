@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Volume Bubble</string>
+    <string name="app_name">Rockerless</string>
     <string name="notif_channel">Floating control</string>
-    <string name="notif_title">Volume bubble is on</string>
+    <string name="notif_title">Rockerless is on</string>
     <string name="notif_text">Tap the bubble to change volume</string>
     <string name="notif_stop">Stop</string>
     <string name="tile_label">Media volume</string>
