@@ -12,14 +12,14 @@ val keystoreProps = Properties().apply {
 
 android {
     namespace = "app.volumebubble"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.bytecrest.rockerless"
         minSdk = 30
-        targetSdk = 35
-        versionCode = 3
-        versionName = "1.2.0"
+        targetSdk = 36
+        versionCode = 4
+        versionName = "1.2.1"
     }
 
     signingConfigs {

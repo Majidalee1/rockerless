@@ -19,3 +19,4 @@ keystore.properties
 
 # Local working notes
 tasks/
+.argent/
