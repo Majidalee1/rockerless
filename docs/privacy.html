@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rockerless — Privacy Policy</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0 auto; max-width: 44rem; padding: 3rem 1.25rem 6rem;
+         font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         background: #faf9fc; color: #1b1b1f; }
+  @media (prefers-color-scheme: dark) { body { background: #141218; color: #e7e1e9; } }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .25rem; }
+  .sub { color: #6b6478; margin: 0 0 2.5rem; }
+  @media (prefers-color-scheme: dark) { .sub { color: #a8a0b4; } }
+  h2 { font-size: 1.05rem; letter-spacing: .01em; margin: 2.25rem 0 .5rem; }
+  ul { padding-left: 1.15rem; }
+  li { margin: .3rem 0; }
+  code { background: rgba(128,128,128,.16); padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+  footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(128,128,128,.25);
+           font-size: .9rem; color: #6b6478; }
+</style>
+</head>
+<body>
+<h1>Privacy Policy — Rockerless</h1>
+<p class="sub">Last updated 12 November 2026 · Applies to the Android app <code>dev.bytecrest.rockerless</code></p>
+
+<p>Rockerless is a volume control utility for Android made by Bytecrest. This policy explains, in plain language, what the app does with information. The short version: nothing leaves your phone, because the app has no way to send it.</p>
+
+<h2>We do not collect any data</h2>
+<p>Rockerless does not collect, transmit, sell or share personal data. It has no user accounts, no sign-in, no advertising, no analytics, no crash reporting and no third-party SDKs.</p>
+
+<h2>No internet access</h2>
+<p>The app does not request the <code>INTERNET</code> permission in its Android manifest. Without that permission the Android operating system prevents the app from opening a network connection at all, so there is no channel through which data could be sent anywhere, even in principle.</p>
+
+<h2>What is stored on your device</h2>
+<p>Your preferences are saved in the app's private storage on your phone and are never uploaded. They are limited to:</p>
+<ul>
+  <li>Bubble size, opacity, and whether it hides when idle.</li>
+  <li>The screen edge and vertical position you last dragged the bubble to.</li>
+  <li>Whether the bubble was switched on, so it can be restored after a reboot.</li>
+  <li>The media volume level remembered for the unmute action.</li>
+</ul>
+<p>Uninstalling the app deletes all of it.</p>
+
+<h2>Permissions and why they exist</h2>
+<ul>
+  <li><strong>Draw over other apps</strong> (<code>SYSTEM_ALERT_WINDOW</code>) — shows the floating bubble above other apps. Granted by you in system settings.</li>
+  <li><strong>Modify audio settings</strong> (<code>MODIFY_AUDIO_SETTINGS</code>) — mutes and restores media volume and opens the system volume panel.</li>
+  <li><strong>Foreground service</strong> — keeps the bubble available while you use other apps, with a visible notification.</li>
+  <li><strong>Notifications</strong> — shows the required notification while the bubble is running, including a Stop button.</li>
+  <li><strong>Start at boot</strong> — restores the bubble after a restart, only if you had it switched on.</li>
+  <li><strong>Vibrate</strong> — haptic feedback when you long-press to mute.</li>
+</ul>
+<p>Rockerless does not use an accessibility service, does not read the contents of your screen or other apps, and does not access your contacts, files, camera, microphone, or location.</p>
+
+<h2>Sharing</h2>
+<p>There is nothing to share. No data is collected, so no data is disclosed to third parties. No advertising or analytics providers are involved.</p>
+
+<h2>Children</h2>
+<p>The app is suitable for general audiences and collects no data from anyone, including children.</p>
+
+<h2>Changes to this policy</h2>
+<p>If a future version of Rockerless ever needs to handle data differently, this page will be updated before that version is released, and the date at the top will change.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy: <a href="mailto:aleemii270@gmail.com">aleemii270@gmail.com</a>.</p>
+
+<footer>© 2026 Bytecrest · Rockerless is MIT licensed and open source.</footer>
+</body>
+</html>
