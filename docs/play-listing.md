@@ -72,7 +72,7 @@ Rockerless is free, MIT licensed and open source. No subscription, no Pro tier, 
 - Category: Tools
 - Tags: Accessibility (secondary), Personalisation
 - Contact: use your bytecrest.dev address
-- Privacy policy: https://majidalee1.github.io/rockerless/privacy.html
+- Privacy policy: https://bytecrest.dev/rockerless/privacy/
 
 ## Content rating answers
 
